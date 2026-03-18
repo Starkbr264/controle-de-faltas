@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SENAC - Portal de Controle de Frequencia</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== HEADER ===== -->
+<div class="app-header hidden" id="appHeader">
+  <div class="header-left">
+    <!--
+      LOGO NO HEADER:
+      Substitua o src abaixo pelo caminho da imagem da logo SENAC.
+      Exemplo: src="images/senac-logo.png"
+      O filter:brightness(0) invert(1) deixa a logo branca sobre fundo azul.
+      Remova o filter se a logo ja for branca ou se preferir a cor original.
+    -->
+    <img
+      src="img/senac-logo-sem-fundo.webp"
+      alt="SENAC"
+      class="senac-logo-img"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+    />
+    <!-- Fallback textual (aparece se a imagem nao carregar) -->
+    <div class="senac-logo-fallback" style="display:none;">
+      <div class="senac-logo-square">S</div>
+      <span class="senac-wordmark">SENAC</span>
+    </div>
+
+    <div class="header-divider"></div>
+    <span class="header-portal-label">Frequencia</span>
+  </div>
+  <div class="header-right">
+    <span class="header-admin" id="headerUserName">Administrador</span>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
+      <svg id="themeIconHeader" class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#fff;">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+    <button class="btn-logout" onclick="logout()">Sair</button>
+  </div>
+</div>
+
+<!-- ===== LOGIN ===== -->
+<div id="loginScreen">
+  <!-- Painel esquerdo de branding -->
+  <div class="login-left">
+    <div class="login-brand">
+      <!--
+        LOGO NA TELA DE LOGIN (grande, painel esquerdo):
+        Substitua o src abaixo pelo caminho da imagem da logo SENAC.
+        filter: brightness(0) invert(1) = deixa branca sobre fundo escuro.
+        Remova o filter se a logo ja for branca/transparente.
+      -->
+      <img
+        src="SUA_IMAGEM_AQUI.png"
+        alt="SENAC"
+        class="login-logo-img"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+      />
+      <!-- Fallback -->
+      <div class="login-logo-fallback" style="display:none;">S</div>
+
+      <h2>SENAC</h2>
+      <p>Servico Nacional de Aprendizagem Comercial</p>
+      <div class="login-info-box">
+        <p>Sistema de Controle de Frequencia para professores e coordenadores de turmas.</p>
+      </div>
+
+      <!-- Decorative color dots -->
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:28px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#f97316;opacity:0.9;"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:#fb923c;opacity:0.7;"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:#fff;opacity:0.5;"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:#93c5fd;opacity:0.7;"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:#3b82f6;opacity:0.9;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Painel direito do formulario -->
+  <div class="login-right">
+    <button class="theme-toggle login-theme-btn" onclick="toggleTheme()" title="Alternar tema">
+      <svg id="themeIconLogin" class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text2);">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+
+    <!-- Mini logo no formulario -->
+    <div style="margin-bottom:24px;display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <!--
+        MINI LOGO NO FORMULARIO:
+        Substitua o src abaixo pelo caminho da imagem.
+        Se a logo tiver cores proprias (nao branca), remova o filter.
+      -->
+      <img
+        src="SUA_IMAGEM_AQUI.png"
+        alt="SENAC"
+        class="login-mini-logo-img"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+      />
+      <!-- Fallback -->
+      <div class="login-mini-logo-fallback" style="display:none;">S</div>
+
+      <div style="text-align:center;">
+        <div class="login-form-title">Bem-vindo</div>
+        <div class="login-form-sub">Portal de Frequencia SENAC</div>
+      </div>
+    </div>
+
+    <div style="width:100%;">
+      <div class="form-group" style="margin-bottom:14px;">
+        <label>E-mail institucional</label>
+        <input class="input" id="email" type="email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')login()">
+      </div>
+      <div class="form-group" style="margin-bottom:22px;">
+        <label>Senha</label>
+        <input class="input" id="senha" type="password" placeholder="Sua senha" onkeydown="if(event.key==='Enter')login()">
+      </div>
+      <button class="btn btn-primary" style="width:100%;padding:12px;font-size:14px;border-radius:10px;" onclick="login()">
+        Entrar no Portal
+      </button>
+      <p id="loginErro" style="color:var(--red);font-size:12px;margin-top:10px;text-align:center;font-weight:700;"></p>
+      <div class="login-hint">Credenciais de teste: admin@portal.com / 123456</div>
+    </div>
+
+    <!-- Orange + Blue accent bar at bottom -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:4px;background:var(--stripe-gradient);border-radius:0 0 0 0;"></div>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="dashboardScreen" class="hidden">
+  <div class="senac-stripe"></div>
+  <div class="container">
+    <div class="section-header" style="margin-top:8px;">
+      <div class="section-title">Minhas <span>Turmas</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="stripe"></div>Nova Turma</div>
+      <div class="form-row">
+        <div class="form-group"><label>Nome da Turma</label><input class="input" id="turmaNome" placeholder="Ex: Turma A - 2025" onkeydown="if(event.key==='Enter')criarTurma()"></div>
+        <button class="btn btn-primary" onclick="criarTurma()" style="align-self:flex-end;">Criar Turma</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="stripe" style="background:var(--blue);"></div>Turmas Cadastradas</div>
+      <div id="turmasList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TURMA ===== -->
+<div id="turmaScreen" class="hidden">
+  <div class="senac-stripe"></div>
+  <div class="container" style="padding-top:24px;">
+    <button class="back-btn" onclick="voltarDashboard()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Dashboard
+    </button>
+    <div class="breadcrumb"><span class="bc-active" id="bc-turma"></span></div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('alunosTab', this)">Alunos</button>
+      <button class="tab" onclick="showTab('ucsTab', this)">Unidades Curriculares</button>
+      <button class="tab" onclick="showTab('freqGeralTab', this)">Frequencia Geral</button>
+    </div>
+
+    <!-- TAB ALUNOS -->
+    <div id="alunosTab">
+      <div class="card">
+        <div class="card-title"><div class="stripe" style="background:var(--green);"></div>Adicionar Aluno</div>
+        <div class="form-row">
+          <div class="form-group"><label>Nome Completo</label><input class="input" id="alunoNome" placeholder="Nome do aluno"></div>
+          <div class="form-group"><label>Matricula</label><input class="input" id="alunoMatricula" placeholder="2025001"></div>
+          <button class="btn btn-primary" onclick="adicionarAluno()" style="align-self:flex-end;">Adicionar</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="stripe"></div>Lista de Alunos <span id="totalAlunos" style="font-size:12px;color:var(--text2);font-family:'Nunito Sans',sans-serif;font-weight:600;"></span></div>
+        <div id="alunosList"></div>
+      </div>
+    </div>
+
+    <!-- TAB UCS -->
+    <div id="ucsTab" class="hidden">
+      <div class="card">
+        <div class="card-title"><div class="stripe" style="background:var(--blue);"></div>Adicionar Unidade Curricular</div>
+        <div class="form-row">
+          <div class="form-group"><label>Nome da UC</label><input class="input" id="ucNome" placeholder="Ex: Programacao Web"></div>
+          <div class="form-group" style="max-width:170px;"><label>Total de Aulas</label><input class="input" id="ucTotalAulas" type="number" placeholder="40"></div>
+          <button class="btn btn-primary" onclick="adicionarUc()" style="align-self:flex-end;">Adicionar</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="stripe" style="background:var(--blue);"></div>Unidades Curriculares</div>
+        <div id="ucsList"></div>
+      </div>
+    </div>
+
+    <!-- TAB FREQUENCIA GERAL -->
+    <div id="freqGeralTab" class="hidden">
+      <div class="card">
+        <div class="card-title"><div class="stripe" style="background:var(--accent2);"></div>Resumo Geral de Frequencia</div>
+        <p style="color:var(--text2);font-size:12px;margin-bottom:18px;line-height:1.6;">Percentual calculado com base em presencas e faltas registradas por UC. Clique no aluno para expandir detalhes.</p>
+        <div id="freqGeralList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== UC SCREEN ===== -->
+<div id="ucScreen" class="hidden">
+  <div class="senac-stripe"></div>
+  <div class="container" style="padding-top:24px;">
+    <button class="back-btn" onclick="voltarTurma()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Turma
+    </button>
+    <div class="breadcrumb">
+      <span id="bc-turma2" style="color:var(--text2);"></span>
+      <span class="sep">/</span>
+      <span class="bc-active" id="bc-uc"></span>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;">
+        <div>
+          <div class="uc-badge"><span>Unidade Curricular</span></div>
+          <h2 id="ucNomeTitle" style="font-size:1.6rem;margin-bottom:4px;font-family:'Nunito',sans-serif;font-weight:900;"></h2>
+          <span id="ucTotalAulasDisplay" style="color:var(--text2);font-size:13px;font-weight:600;"></span>
+        </div>
+        <button class="btn btn-primary" onclick="openAddDayModal()">+ Novo Dia</button>
+      </div>
+    </div>
+
+    <div class="stats-grid" id="ucStatsGrid"></div>
+
+    <div class="card" id="ucFreqCard">
+      <div class="card-title"><div class="stripe"></div>Registro de Frequencia por Dia</div>
+      <div class="days-nav" id="daysNav"></div>
+      <div id="freqDayContent">
+        <p style="color:var(--text2);font-size:13px;">Crie um dia para comecar a marcar frequencia.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="stripe" style="background:var(--blue);"></div>Resumo de Frequencia dos Alunos</div>
+      <p style="color:var(--text2);font-size:12px;margin-bottom:16px;line-height:1.6;">Percentual com base nos registros: presencas / (presencas + faltas).</p>
+      <div id="ucAlunosSummary"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL NOVO DIA ===== -->
+<div class="modal-overlay" id="addDayModal">
+  <div class="modal">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--accent-soft);border:1.5px solid rgba(249,115,22,0.25);display:flex;align-items:center;justify-content:center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <h3 style="margin-bottom:0;">Novo Dia de Aula</h3>
+    </div>
+    <div class="form-group" style="margin-bottom:14px;">
+      <label>Data</label>
+      <input class="input" type="date" id="newDayDate">
+    </div>
+    <div class="form-group" style="margin-bottom:6px;">
+      <label>Descricao (opcional)</label>
+      <input class="input" id="newDayDesc" placeholder="Ex: Aula 01 - Introducao">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('addDayModal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="addDay()">Criar Dia</button>
+    </div>
+  </div>
+</div>
+<script src="js/script.js"></script>
+</body>
+</html>
